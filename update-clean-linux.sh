@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+export APT_LISTCHANGES_FRONTEND=none
 export DEBIAN_FRONTEND=noninteractive
 
 /usr/bin/apt-get -qq update
@@ -14,10 +15,6 @@ export DEBIAN_FRONTEND=noninteractive
 
 /usr/bin/journalctl --vacuum-time=7d --quiet
 
-/usr/bin/find /var/log -type f -name "*.log" -mtime +7 -delete
-/usr/bin/find /var/log -type f -name "*.gz" -mtime +7 -delete
-/usr/bin/find /var/cache -type f -mtime +7 -delete
-/usr/bin/find /var/tmp -type f -mtime +7 -delete
-/usr/bin/find /tmp -type f -mtime +7 -delete
-
-/sbin/reboot
+if [ -f /var/run/reboot-required ]; then
+    /sbin/reboot
+fi
