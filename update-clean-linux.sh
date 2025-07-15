@@ -16,5 +16,6 @@ export DEBIAN_FRONTEND=noninteractive
 /usr/bin/journalctl --vacuum-time=7d --quiet
 
 if [ -f /var/run/reboot-required ]; then
+    cd /root/vpnbot && make d 2>/dev/null || true
     /sbin/reboot
 fi
